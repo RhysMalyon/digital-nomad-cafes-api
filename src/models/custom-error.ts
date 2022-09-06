@@ -1,9 +1,9 @@
 export class CustomError {
     message!: string
     status!: number
-    additionalInfo!: any
+    additionalInfo!: unknown
 
-    constructor(message: string, status = 500, additionalInfo: any = {}) {
+    constructor(message: string, status = 500, additionalInfo: unknown = {}) {
         this.message = message
         this.status = status
         this.additionalInfo = additionalInfo

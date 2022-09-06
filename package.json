@@ -7,10 +7,18 @@
     "main": "index.ts",
     "target": "node",
     "scripts": {
-        "start": "npx ts-node src/index.ts",
+        "start": "set -a && . ./.env && npx ts-node src/index.ts",
         "start:watch": "nodemon src/index.ts",
+        "build": "npm run clean && npm run build:ts && npm run lint",
+        "build:ts": "tsc",
+        "watch:ts": "tsc -w",
+        "clean": "bash -c \"rm -rf dist/*\"",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "lint": "eslint . --ext .jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+        "lint": "eslint . --ext .ts --fix --ignore-path .gitignore"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:RhysMalyon/digital-nomad-cafes-api.git"
     },
     "dependencies": {
         "body-parser": "^1.20.0",

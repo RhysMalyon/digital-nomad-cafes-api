@@ -14,7 +14,7 @@ export const authorize =
 
             // verify request has token
             if (!jwt) {
-                return res.status(401).json({ message: 'Invalid token ' })
+                return res.status(401).json({ message: 'Invalid token' })
             }
 
             // remove Bearer if using Bearer Authorization mechanism

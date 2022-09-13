@@ -10,7 +10,14 @@ export function generateToken() {
     const payload = {
         name: 'Jason Webtoken',
         userId: 1,
-        accessTypes: ['addPlace', 'updatePlace', 'deletePlace'],
+        accessTypes: [
+            'addPlace',
+            'updatePlace',
+            'deletePlace',
+            'addUser',
+            'updateUser',
+            'deleteUser',
+        ],
     }
     // read private key value
     const privateKey = {

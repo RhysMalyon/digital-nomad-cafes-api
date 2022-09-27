@@ -8,17 +8,11 @@ import * as path from 'path'
 import errorHandler from './middlewares/error-handler'
 import logger from './middlewares/logger'
 import router from './router'
-import { generateToken } from './utils/jwt'
 
 dotenv.config()
 
 const app = express()
 const port = 3000
-
-// Generate token for testing purposes
-if (process.env.NODE_ENV !== 'production') {
-    console.log('JWT', generateToken())
-}
 
 // serve static files
 app.use(express.static(path.join(__dirname, '../public')))

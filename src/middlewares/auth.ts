@@ -86,10 +86,10 @@ export const generateRefreshToken = (user: User['username'], role: string) => {
     return jwt.sign({ user: user, role: role }, privateKey, signOptions)
 }
 
-export const decodeRefreshToken = (refreshToken: string) => {
+export const decodeToken = (token: string) => {
     try {
         // @ts-ignore
-        const decoded = jwt.verify(refreshToken, publicKey, {
+        const decoded = jwt.verify(token, publicKey, {
             algorithms: ['RS256'],
         })
         return decoded

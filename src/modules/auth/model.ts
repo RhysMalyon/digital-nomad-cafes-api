@@ -11,8 +11,8 @@ import { User } from '../users/types'
 interface AuthResponse {
     status: number
     message: string
-    access_token: string
-    refresh_token: string
+    access_token?: string
+    refresh_token?: string
 }
 
 const response: Partial<AuthResponse> = {}
@@ -22,6 +22,11 @@ const fetchUser = async (username: string) => {
 }
 
 export const authenticateUser = async (username: string, password: string) => {
+    const response: AuthResponse = {
+        status: 0,
+        message: ''
+    }
+
     const userSearch: User[] = await fetchUser(username)
 
     if (userSearch.length == 0) {

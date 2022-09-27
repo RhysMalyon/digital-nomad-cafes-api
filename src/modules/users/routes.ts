@@ -4,18 +4,23 @@ import * as Controller from './controller'
 
 const router = Router()
 
+// GET all users
 router.route('/').get(Controller.getUsers)
 
+// GET user by ID
 router.route('/:id').get(Controller.getUserById)
 
-router.route('/').post(Auth.authorize(['addUser']), Controller.addUser)
+// POST new user
+router.route('/').post(Controller.addUser)
 
+// UPDATE user
 router
     .route('/:id')
-    .patch(Auth.authorize(['updateUser']), Controller.updateUserById)
+    .patch(Auth.authorize(['user, admin']), Controller.updateUserById)
 
+//
 router
     .route('/:id')
-    .delete(Auth.authorize(['deleteUser']), Controller.deleteUserById)
+    .delete(Auth.authorize(['admin']), Controller.deleteUserById)
 
 export default router

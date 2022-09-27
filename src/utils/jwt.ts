@@ -39,7 +39,7 @@ export function generateToken() {
 
 interface TokenPayload {
     exp: number
-    accessTypes: string[]
+    role: string
     name: string
     userId: number
 }

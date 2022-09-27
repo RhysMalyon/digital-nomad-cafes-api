@@ -8,14 +8,14 @@ router.route('/').get(Controller.getPlaces)
 
 router.route('/:id').get(Controller.getPlaceById)
 
-router.route('/').post(Auth.authorize(['addPlace']), Controller.addPlace)
+router.route('/').post(Auth.authorize(['admin']), Controller.addPlace)
 
 router
     .route('/:id')
-    .patch(Auth.authorize(['updatePlace']), Controller.updatePlaceById)
+    .patch(Auth.authorize(['admin']), Controller.updatePlaceById)
 
 router
     .route('/:id')
-    .delete(Auth.authorize(['deletePlace']), Controller.deletePlaceById)
+    .delete(Auth.authorize(['admin']), Controller.deletePlaceById)
 
 export default router

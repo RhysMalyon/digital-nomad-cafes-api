@@ -3,11 +3,11 @@ import { Request, RequestHandler, Response } from 'express'
 import dbInstance from '../../utils/mysql.connector'
 import { getAllUsers, getUser } from './model'
 import {
-	AddUserReq,
-	DeleteUserReq,
-	GetUserReq,
-	UpdateUserReq,
-	User
+    AddUserReq,
+    DeleteUserReq,
+    GetUserReq,
+    UpdateUserReq,
+    User
 } from './types'
 
 // GET /users

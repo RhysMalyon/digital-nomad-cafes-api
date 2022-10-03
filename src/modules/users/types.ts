@@ -20,3 +20,5 @@ export interface UpdateUserReq extends Request {
 export interface DeleteUserReq extends Request {
     id: User['id']
 }
+
+export interface GetUserFavoritesReq extends GetUserReq {}

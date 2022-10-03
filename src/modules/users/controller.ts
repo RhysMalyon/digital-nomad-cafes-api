@@ -1,10 +1,11 @@
 import bcrypt from 'bcrypt'
 import { Request, RequestHandler, Response } from 'express'
 import dbInstance from '../../utils/mysql.connector'
-import { getAllUsers, getUser } from './model'
+import { getAllUsers, getUser, getUserFavorites } from './model'
 import {
     AddUserReq,
     DeleteUserReq,
+    GetUserFavoritesReq,
     GetUserReq,
     UpdateUserReq,
     User
@@ -21,16 +22,21 @@ export const getUsers: RequestHandler = async (req: Request, res: Response) => {
     }
 }
 
+interface UserResponse {
+    id: number;
+    username: string;
+    role: string;
+}
+
 // GET /users/:id
 export const getUserById: RequestHandler = async (
     req: GetUserReq,
     res: Response
 ) => {
     try {
-        const user = await getUser(req.params.id)
+        const user: UserResponse[] = await getUser(req.params.id)
 
-        res.send(user)
-        return user
+        res.send({ id: user[0].id, role: user[0].role, username: user[0].username })
     } catch (error) {
         console.error(error)
     }
@@ -95,4 +101,18 @@ export const deleteUserById: RequestHandler = async (
     await dbInstance('users').where('id', req.params.id).del()
 
     res.send({ success: `User ${req.params.id} successfully deleted.` })
+}
+
+// GET /users/:id/favorites
+export const getFavorites: RequestHandler = async (
+    req: GetUserFavoritesReq,
+    res: Response
+) => {
+    try {
+        const favorites = await getUserFavorites(req.params.id)
+
+        res.send({ favorites })
+    } catch (error) {
+        console.error(error)
+    }
 }

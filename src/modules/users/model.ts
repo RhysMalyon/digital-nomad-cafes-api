@@ -7,3 +7,7 @@ export const getAllUsers = async () => {
 export const getUser = async (id: string | number) => {
     return await dbInstance('users').select('*').where('id', id)
 }
+
+export const getUserFavorites = async (id: string | number) => {
+    return await dbInstance('favorites').select('*').where('user_id', id).innerJoin('places', 'favorites.place_id', 'places.id')
+}

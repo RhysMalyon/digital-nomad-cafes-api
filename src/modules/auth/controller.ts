@@ -14,6 +14,8 @@ export const handleLogin: RequestHandler = async (
 
         if (response.access_token && response.refresh_token) {
             res.json({
+                user_id: response.user_id,
+                username: response.username,
                 access_token: response.access_token,
                 expires_in: response.expires_in,
                 refresh_token: response.refresh_token,
@@ -22,8 +24,8 @@ export const handleLogin: RequestHandler = async (
         } else {
             res.status(response.status).send(response.message)
         }
-    } catch (err) {
-        console.error(err)
+    } catch (error) {
+        console.error(error)
     }
 }
 
@@ -50,7 +52,7 @@ export const handleRefreshToken: RequestHandler = async (
                 expiry_timestamp: response.expiry_timestamp,
             })
         }
-    } catch (err) {
-        console.error(err)
+    } catch (error) {
+        console.error(error)
     }
 }

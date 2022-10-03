@@ -93,7 +93,7 @@ export const decodeToken = (token: string) => {
             algorithms: ['RS256'],
         })
         return decoded
-    } catch (err) {
-        console.log(err)
+    } catch (error) {
+        console.error(error)
     }
 }

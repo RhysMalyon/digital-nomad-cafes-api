@@ -8,7 +8,7 @@ const router = Router()
 router.route('/').get(Controller.getUsers)
 
 // GET user by ID
-router.route('/:id').get(Controller.getUserById)
+router.route('/:id').get(Auth.authorize(['user', 'admin']), Controller.getUserById)
 
 // POST new user
 router.route('/').post(Controller.addUser)
@@ -16,11 +16,14 @@ router.route('/').post(Controller.addUser)
 // UPDATE user
 router
     .route('/:id')
-    .patch(Auth.authorize(['user, admin']), Controller.updateUserById)
+    .patch(Auth.authorize(['user', 'admin']), Controller.updateUserById)
 
-//
+// DELETE user
 router
     .route('/:id')
     .delete(Auth.authorize(['admin']), Controller.deleteUserById)
+
+// GET user favorites
+router.route('/:id/favorites').get(Auth.authorize(['user', 'admin']), Controller.getFavorites)
 
 export default router

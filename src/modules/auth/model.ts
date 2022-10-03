@@ -11,6 +11,8 @@ import { User } from '../users/types'
 interface AuthResponse {
     status: number
     message: string
+    user_id?: number
+    username?: string
     access_token?: string
     expires_in?: number
     refresh_token?: string
@@ -43,6 +45,8 @@ export const authenticateUser = async (username: string, password: string) => {
             console.log('Login successful!')
             console.log('Generating accessToken.')
 
+            const { id, username } = userSearch[0]
+
             const accessToken = generateAccessToken(
                 userSearch[0].username,
                 userSearch[0].role
@@ -53,6 +57,9 @@ export const authenticateUser = async (username: string, password: string) => {
             )
 
             await insertRefreshToken(refreshToken)
+
+            response.user_id = id
+            response.username = username
 
             response.access_token = accessToken
             response.expires_in = 900
@@ -75,21 +82,25 @@ interface StoredToken {
 }
 
 export const validateRefreshToken = async (refreshToken: string) => {
-    let isValid = false
+    try {
+        let isValid = false
 
-    const jwtid = decodeToken(refreshToken) as JwtPayload
+        const jwtid = decodeToken(refreshToken) as JwtPayload
 
-    const token: StoredToken[] = await dbInstance('refresh_tokens')
-        .select('*')
-        .where('refresh_token', jwtid.jti)
+        const token: StoredToken[] = await dbInstance('refresh_tokens')
+            .select('*')
+            .where('refresh_token', jwtid.jti)
 
-    if (token.length !== 0) {
-        const currentTime = new Date()
-        const expiryTime = new Date(token[0].expiry_timestamp)
-        isValid = currentTime < expiryTime
+        if (token.length !== 0) {
+            const currentTime = new Date()
+            const expiryTime = new Date(token[0].expiry_timestamp)
+            isValid = currentTime < expiryTime
+        }
+
+        return isValid
+    } catch (error) {
+        console.error(error)
     }
-
-    return isValid
 }
 
 const insertRefreshToken = async (refreshToken: string) => {

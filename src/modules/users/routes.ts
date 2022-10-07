@@ -26,4 +26,12 @@ router
 // GET user favorites
 router.route('/:id/favorites').get(Auth.authorize(['user', 'admin']), Controller.getFavorites)
 
+// POST new favorite
+router.route('/favorites').post(Auth.authorize(['user', 'admin']), Controller.addFavorite)
+
+// DELETE favorite
+router
+    .route('/favorites/:id')
+    .delete(Auth.authorize(['user', 'admin']), Controller.deleteFavoriteById)
+
 export default router

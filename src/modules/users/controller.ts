@@ -1,14 +1,16 @@
 import bcrypt from 'bcrypt'
 import { Request, RequestHandler, Response } from 'express'
 import dbInstance from '../../utils/mysql.connector'
-import { getAllUsers, getUser, getUserFavorites } from './model'
+import { getAllUsers, getFavorite, getUser, getUserFavorites } from './model'
 import {
+    AddFavoriteReq,
     AddUserReq,
     DeleteUserReq,
+    Favorite,
     GetUserFavoritesReq,
     GetUserReq,
     UpdateUserReq,
-    User
+    User,
 } from './types'
 
 // GET /users
@@ -23,9 +25,9 @@ export const getUsers: RequestHandler = async (req: Request, res: Response) => {
 }
 
 interface UserResponse {
-    id: number;
-    username: string;
-    role: string;
+    id: number
+    username: string
+    role: string
 }
 
 // GET /users/:id
@@ -36,7 +38,11 @@ export const getUserById: RequestHandler = async (
     try {
         const user: UserResponse[] = await getUser(req.params.id)
 
-        res.send({ id: user[0].id, role: user[0].role, username: user[0].username })
+        res.send({
+            id: user[0].id,
+            role: user[0].role,
+            username: user[0].username,
+        })
     } catch (error) {
         console.error(error)
     }
@@ -115,4 +121,51 @@ export const getFavorites: RequestHandler = async (
     } catch (error) {
         console.error(error)
     }
+}
+
+// POST /users/favorites
+export const addFavorite: RequestHandler = async (
+    req: AddFavoriteReq,
+    res: Response
+) => {
+    try {
+        const favorite: Favorite = {
+            user_id: req.body.user_id,
+            place_id: req.body.place_id,
+        }
+
+        const favoriteSearch: Favorite[] = await dbInstance('favorites')
+            .select('*')
+            .where({
+                user_id: favorite.user_id,
+                place_id: favorite.place_id
+            })
+
+        if (favoriteSearch.length > 0) {
+            res.status(409).send('Favorite already exists.')
+        } else {
+            // 1. Insert favorite into favorites table
+            const query = dbInstance('favorites').insert(favorite)
+            // 2. Extract assigned id via knex
+            const [id] = await query
+            // 3. Create full user object including id
+            const returnedFavorite = await getFavorite(id)
+
+            // Return full favorite object as response
+            res.send(returnedFavorite)
+            return returnedFavorite
+        }
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+// DELETE /users/favorites/:id
+export const deleteFavoriteById: RequestHandler = async (
+    req: DeleteUserReq,
+    res: Response
+) => {
+    await dbInstance('favorites').where('id', req.params.id).del()
+
+    res.send({ success: `Favorite ${req.params.id} successfully deleted.` })
 }

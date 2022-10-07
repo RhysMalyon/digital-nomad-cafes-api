@@ -21,4 +21,11 @@ export interface DeleteUserReq extends Request {
     id: User['id']
 }
 
+export interface Favorite {
+    user_id: number;
+    place_id: number;
+}
+
 export interface GetUserFavoritesReq extends GetUserReq {}
+
+export interface AddFavoriteReq extends Request {}

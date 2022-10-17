@@ -12,7 +12,7 @@ import router from './router'
 dotenv.config()
 
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 
 // serve static files
 app.use(express.static(path.join(__dirname, '../public')))
@@ -44,5 +44,9 @@ app.use('/', router)
 app.use(errorHandler)
 
 app.listen(port, () => {
-    console.log(`App listening at http://localhost:${port}`)
+    if (process.env.PORT) {
+        console.log(`App listening at port: ${port}`)
+    } else {
+        console.log(`App listening at http://localhost:${port}`)
+    }
 })

@@ -16,6 +16,7 @@ export const handleLogin: RequestHandler = async (
             res.json({
                 user_id: response.user_id,
                 username: response.username,
+                role: response.role,
                 access_token: response.access_token,
                 expires_in: response.expires_in,
                 refresh_token: response.refresh_token,

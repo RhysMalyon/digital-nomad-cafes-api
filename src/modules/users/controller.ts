@@ -40,8 +40,8 @@ export const getUserById: RequestHandler = async (
 
         res.send({
             id: user[0].id,
-            role: user[0].role,
             username: user[0].username,
+            role: user[0].role,
         })
     } catch (error) {
         console.error(error)

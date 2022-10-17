@@ -13,6 +13,7 @@ interface AuthResponse {
     message: string
     user_id?: number
     username?: string
+    role?: string
     access_token?: string
     expires_in?: number
     refresh_token?: string
@@ -45,7 +46,7 @@ export const authenticateUser = async (username: string, password: string) => {
             console.log('Login successful!')
             console.log('Generating accessToken.')
 
-            const { id, username } = userSearch[0]
+            const { id, username, role } = userSearch[0]
 
             const accessToken = generateAccessToken(
                 userSearch[0].username,
@@ -60,6 +61,7 @@ export const authenticateUser = async (username: string, password: string) => {
 
             response.user_id = id
             response.username = username
+            response.role = role
 
             response.access_token = accessToken
             response.expires_in = 900

@@ -165,7 +165,11 @@ export const deleteFavoriteById: RequestHandler = async (
     req: DeleteUserReq,
     res: Response
 ) => {
-    await dbInstance('favorites').where('id', req.params.id).del()
+    try {
+        await dbInstance('favorites').where('id', req.params.id).del()
 
-    res.send({ success: `Favorite ${req.params.id} successfully deleted.` })
+        res.send({ success: `Favorite ${req.params.id} successfully deleted.` })
+    } catch (error) {
+        console.error(error)
+    }
 }

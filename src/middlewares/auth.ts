@@ -5,14 +5,12 @@
 import * as crypto from 'crypto'
 import { createPrivateKey, createPublicKey } from 'crypto'
 import { NextFunction, Request, Response } from 'express'
-import * as fs from 'fs'
 import * as jwt from 'jsonwebtoken'
-import * as path from 'path'
 import { User } from '../modules/users/types'
 import { validateToken } from '../utils/jwt'
 
 const privateKey = createPrivateKey({
-    key: fs.readFileSync(path.join(__dirname, './../../private.key')),
+    key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
     passphrase: process.env.PRIVATE_KEY_PASSPHRASE,
 })
 

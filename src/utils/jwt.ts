@@ -1,6 +1,4 @@
-import * as fs from 'fs'
 import { verify, VerifyOptions } from 'jsonwebtoken'
-import * as path from 'path'
 
 interface TokenPayload {
     exp: number
@@ -15,9 +13,7 @@ interface TokenPayload {
  * @param token the expected token payload
  */
 export function validateToken(token: string): Promise<TokenPayload> {
-    const publicKey = fs.readFileSync(
-        path.join(__dirname, './../../public.key')
-    )
+    const publicKey = process.env.PRIVATE_KEY.replace(/\\n/g, '\n')
 
     const verifyOptions: VerifyOptions = {
         algorithms: ['RS256'],

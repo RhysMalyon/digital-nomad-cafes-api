@@ -9,7 +9,7 @@
     "scripts": {
         "start": "set -a && . ./.env && npx ts-node src/index.ts",
         "start:watch": "nodemon src/index.ts",
-        "build": "npm run clean && npm run build:ts && npm run lint",
+        "build": "npm run clean && npm install && npm run build:ts && npm run lint",
         "build:ts": "tsc",
         "watch:ts": "tsc -w",
         "clean": "bash -c \"rm -rf dist/*\"",

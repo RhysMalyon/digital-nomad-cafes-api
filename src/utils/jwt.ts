@@ -13,7 +13,7 @@ interface TokenPayload {
  * @param token the expected token payload
  */
 export function validateToken(token: string): Promise<TokenPayload> {
-    const publicKey = process.env.PRIVATE_KEY.replace(/\\n/g, '\n')
+    const publicKey = process.env.PUBLIC_KEY.replace(/\\n/g, '\n')
 
     const verifyOptions: VerifyOptions = {
         algorithms: ['RS256'],
